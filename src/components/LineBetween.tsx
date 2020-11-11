@@ -16,12 +16,8 @@ const LineBetween: React.FC<TLineBetween> = ({
   pull,
 }) => {
   const [style, setStyle] = useState<React.CSSProperties>();
-  const [inp, setinp] = useState(0);
   const [distance, setDistance] = useState(0);
-  const [countChange, setCountChange] = useState(true);
-  /*
-      Mostly grabbed from https://stackoverflow.com/questions/8672369/how-to-draw-a-line-between-two-divs
-    */
+
   const getOffset = (el: HTMLElement) => {
     const rect = el.getBoundingClientRect();
     return {
@@ -33,6 +29,9 @@ const LineBetween: React.FC<TLineBetween> = ({
   };
 
   useEffect(() => {
+    /*
+      Mostly grabbed from https://stackoverflow.com/questions/8672369/how-to-draw-a-line-between-two-divs
+    */
     if (a && b) {
       const off1 = getOffset(a as HTMLElement);
       const off2 = getOffset(b as HTMLElement);
@@ -52,7 +51,7 @@ const LineBetween: React.FC<TLineBetween> = ({
         "--angle": angle + "deg",
       } as React.CSSProperties);
     }
-  }, [triggerRerender]);
+  }, [triggerRerender, a, b]);
 
   const onInputChange = (e: any) => {
     e.preventDefault();

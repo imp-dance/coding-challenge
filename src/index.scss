@@ -24,6 +24,7 @@ body {
 .circle {
   display: grid;
   place-content: center;
+  gap: 1em;
   width: var(--circleSize);
   height: var(--circleSize);
   background: var(--orange);
@@ -68,11 +69,12 @@ body {
 
   input {
     display: inline-block;
-    transform: rotate(180deg);
+    transform: translate(0px, -50%) rotate(180deg);
     background: var(--blue);
     color: #fff;
-    padding: 5px 10px;
-    border-radius: 3px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: none;
     width: 70px;
     text-align: center;
   }

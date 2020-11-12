@@ -57,12 +57,13 @@ const LineBetween: React.FC<TLineBetween> = ({
 
   useEffect(() => {
     renderLine();
-    //eslint-disable-next-line
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triggerRerender, a, b]);
 
   useEffect(() => {
     window.addEventListener("resize", renderLine);
     return () => window.removeEventListener("resize", renderLine);
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onInputChange = (e: any) => {
@@ -77,6 +78,7 @@ const LineBetween: React.FC<TLineBetween> = ({
 
   useEffect(() => {
     hoistDistance(distance);
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, [distance]);
 
   return (

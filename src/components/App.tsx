@@ -90,7 +90,7 @@ function App() {
 
   useEffect(() => {
     positionChanged();
-    // eslint-disable-next-line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [c1Cords, c2Cords]);
 
   return (

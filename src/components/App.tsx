@@ -7,9 +7,6 @@ import { TCoordinates } from "../types/types";
 /*
   In a real world project, I'd probably use a third party library for dragging and stuff
   but since this is a code challenge I thought I'd try to do as much as possible manually
-
-  Things I'd like to fix if I had more time:
-    * When changing the input on the line, it should take into consideration the angle when moving the circle
 */
 
 function App() {
@@ -93,6 +90,7 @@ function App() {
 
   useEffect(() => {
     positionChanged();
+    // eslint-disable-next-line
   }, [c1Cords, c2Cords]);
 
   return (

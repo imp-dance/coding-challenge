@@ -6,8 +6,6 @@ Run `npm run start` or `yarn start` after installing the dependencies to start t
 
 ## Comments / thoughts
 
-Definitely an interesting challenge. I noticed as I went along that there was a lot of state 
-to be shared inbetween the components, which made my initial architecture a bit hard to work with - 
-but using a few tricks I managed to make it work decently.
-
-I've left some more specific comments along the code as well. 
+Definitely an interesting challenge. The hardest part must be the line inbetween the two circles.
+I ended up using a bit of code from Stackoverflow when calculating the angle & length of the line, 
+but managed to reason about "push"-ing and "pull"-ing the second circle along that line.

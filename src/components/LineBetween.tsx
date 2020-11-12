@@ -61,8 +61,13 @@ const LineBetween: React.FC<TLineBetween> = ({
   }, [triggerRerender, a, b]);
 
   useEffect(() => {
-    window.addEventListener("resize", renderLine);
-    return () => window.removeEventListener("resize", renderLine);
+    // For some reason, this won't work.
+    // I've scratched my head at this for a while now and can't figure out why.
+    // It seems to be related to the ref-element being passed, it becomes "null"
+    // while the window is resizing...
+    const listener = debounce(renderLine, 500);
+    window.addEventListener("resize", listener);
+    return () => window.removeEventListener("resize", listener);
     //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -87,5 +92,41 @@ const LineBetween: React.FC<TLineBetween> = ({
     </div>
   );
 };
+
+// https://github.com/chodorowicz/ts-debounce/blob/master/src/index.ts
+type Procedure = (...args: any[]) => void;
+type DebounceOptions = { isImmediate: boolean };
+function debounce<F extends Procedure>(
+  func: F,
+  waitMilliseconds = 50,
+  options: DebounceOptions = {
+    isImmediate: false,
+  }
+): (this: ThisParameterType<F>, ...args: Parameters<F>) => void {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+  return function (this: ThisParameterType<F>, ...args: Parameters<F>) {
+    const context = this;
+
+    const doLater = function () {
+      timeoutId = undefined;
+      if (!options.isImmediate) {
+        func.apply(context, args);
+      }
+    };
+
+    const shouldCallNow = options.isImmediate && timeoutId === undefined;
+
+    if (timeoutId !== undefined) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(doLater, waitMilliseconds);
+
+    if (shouldCallNow) {
+      func.apply(context, args);
+    }
+  };
+}
 
 export default LineBetween;

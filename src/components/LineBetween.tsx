@@ -6,6 +6,7 @@ type TLineBetween = {
   triggerRerender: boolean;
   push: () => void;
   pull: () => void;
+  setDistance: (newDistance: number) => void;
 };
 
 const LineBetween: React.FC<TLineBetween> = ({
@@ -14,6 +15,7 @@ const LineBetween: React.FC<TLineBetween> = ({
   triggerRerender,
   push,
   pull,
+  setDistance: hoistDistance,
 }) => {
   const [style, setStyle] = useState<React.CSSProperties>();
   const [distance, setDistance] = useState(0);
@@ -28,18 +30,18 @@ const LineBetween: React.FC<TLineBetween> = ({
     };
   };
 
-  useEffect(() => {
+  const renderLine = () => {
     /*
       Mostly grabbed from https://stackoverflow.com/questions/8672369/how-to-draw-a-line-between-two-divs
     */
     if (a && b) {
       const off1 = getOffset(a as HTMLElement);
       const off2 = getOffset(b as HTMLElement);
-      const x1 = off1.left + off1.width / 2;
-      const y1 = off1.top + off1.height / 2;
-      const x2 = off2.left + off2.width / 2;
-      const y2 = off2.top + off2.height / 2;
-      const distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+      const x1 = off1.left + off1.width / 2; // middle left-right of a
+      const y1 = off1.top + off1.height / 2; // middle top-bottom of a
+      const x2 = off2.left + off2.width / 2; // middle left-right of b
+      const y2 = off2.top + off2.height / 2; // middle top-bottom of b
+      const distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // distance between middle of both circles
       setDistance(Math.floor(distance));
       const cx = (x1 + x2) / 2 - distance / 2;
       var cy = (y1 + y2) / 2 - 1;
@@ -51,7 +53,17 @@ const LineBetween: React.FC<TLineBetween> = ({
         "--angle": angle + "deg",
       } as React.CSSProperties);
     }
+  };
+
+  useEffect(() => {
+    renderLine();
+    //eslint-disable-next-line
   }, [triggerRerender, a, b]);
+
+  useEffect(() => {
+    window.addEventListener("resize", renderLine);
+    return () => window.removeEventListener("resize", renderLine);
+  }, []);
 
   const onInputChange = (e: any) => {
     e.preventDefault();
@@ -62,6 +74,10 @@ const LineBetween: React.FC<TLineBetween> = ({
       pull();
     }
   };
+
+  useEffect(() => {
+    hoistDistance(distance);
+  }, [distance]);
 
   return (
     <div className="line" style={style}>

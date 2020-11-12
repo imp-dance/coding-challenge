@@ -12,6 +12,7 @@ import Canvas from "./Canvas";
       - Alternatively use context
     * When resizing the window, the <LineBetween> component should update.
     * When changing the input on the line, it should take into consideration the angle when moving the circle
+    * Move mouseMove function up to App component so that you don't "loose grip" of the element while dragging
 */
 
 function App() {

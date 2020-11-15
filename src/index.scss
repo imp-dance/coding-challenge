@@ -33,8 +33,9 @@ body {
 
   position: absolute;
   z-index: 2;
-  left: calc(var(--x) * 1px);
-  top: calc(var(--y) * 1px);
+  top: 0;
+  left: 0;
+  transform: translate(var(--x), var(--y));
 
   label {
     display: flex;
@@ -62,10 +63,10 @@ body {
   height: 2px;
   background: var(--blue);
   position: absolute;
-  top: var(--cy);
-  left: var(--cx);
+  top: 0;
+  left: 0;
   width: var(--distance);
-  transform: rotate(var(--angle));
+  transform: translate(var(--cx), var(--cy)) rotate(var(--angle));
   text-align: center;
   z-index: 1;
 

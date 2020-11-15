@@ -12,8 +12,8 @@ type TCircle = {
 const Circle = React.forwardRef<HTMLDivElement, TCircle>(
   ({ cords, setCords, onMouseDown, id, isDragging }, ref) => {
     const style = {
-      "--x": cords.x,
-      "--y": cords.y,
+      "--x": cords.x + "px",
+      "--y": cords.y + "px",
     } as React.CSSProperties;
 
     return (

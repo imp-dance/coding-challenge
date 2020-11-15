@@ -46,9 +46,9 @@ const LineBetween: React.FC<TLineBetween> = ({
       const y2 = off2.top + off2.height / 2; // middle top-bottom of b
       const distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // distance between middle of both circles
       setDistance(Math.floor(distance));
-      const cx = (x1 + x2) / 2 - distance / 2;
-      var cy = (y1 + y2) / 2;
-      const angle = Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI);
+      const cx = (x1 + x2) / 2 - distance / 2; // x-coordinate of line start before rotation
+      var cy = (y1 + y2) / 2; // y-coordinate of line start before rotation
+      const angle = Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI); // rotation angle
       setStyle({
         "--cx": cx + "px",
         "--cy": cy + "px",

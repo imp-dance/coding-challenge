@@ -47,7 +47,7 @@ const LineBetween: React.FC<TLineBetween> = ({
       const distance = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)); // distance between middle of both circles
       setDistance(Math.floor(distance));
       const cx = (x1 + x2) / 2 - distance / 2;
-      var cy = (y1 + y2) / 2 - 1;
+      var cy = (y1 + y2) / 2;
       const angle = Math.atan2(y1 - y2, x1 - x2) * (180 / Math.PI);
       setStyle({
         "--cx": cx + "px",
@@ -66,9 +66,10 @@ const LineBetween: React.FC<TLineBetween> = ({
   const onInputChange = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
-    if (e.target.value > distance && push && pull) {
+    const value = parseInt(e.target.value);
+    if (value > distance && push && pull) {
       push();
-    } else {
+    } else if (value >= 0) {
       pull();
     }
   };

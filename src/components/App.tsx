@@ -104,6 +104,14 @@ function App() {
           ref={firstCircle}
           id="first"
         />
+        <LineBetween
+          a={firstCircle.current}
+          b={secondCircle.current}
+          triggerRerender={rerenderLine}
+          push={push}
+          pull={pull}
+          setDistance={setDistance}
+        />
         <Circle
           cords={c2Cords}
           setCords={setC2Cords}
@@ -113,14 +121,6 @@ function App() {
           id="second"
         />
       </Canvas>
-      <LineBetween
-        a={firstCircle.current}
-        b={secondCircle.current}
-        triggerRerender={rerenderLine}
-        push={push}
-        pull={pull}
-        setDistance={setDistance}
-      />
     </div>
   );
 }

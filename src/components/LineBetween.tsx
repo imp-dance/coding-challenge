@@ -22,8 +22,11 @@ const LineBetween: React.FC<TLineBetween> = ({
 
   const getOffset = (el: HTMLElement) => {
     const rect = el.getBoundingClientRect();
+    const leftOffset = el.offsetParent
+      ? (el.offsetParent as HTMLDivElement).offsetLeft
+      : 0;
     return {
-      left: rect.left + window.pageXOffset,
+      left: rect.left - leftOffset,
       top: rect.top + window.pageYOffset,
       width: rect.width || el.offsetWidth,
       height: rect.height || el.offsetHeight,
@@ -60,17 +63,6 @@ const LineBetween: React.FC<TLineBetween> = ({
     //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, [triggerRerender, a, b]);
 
-  useEffect(() => {
-    // For some reason, this won't work.
-    // I've scratched my head at this for a while now and can't figure out why.
-    // It seems to be related to the ref-element being passed, it becomes "null"
-    // while the window is resizing...
-    const listener = debounce(renderLine, 500);
-    window.addEventListener("resize", listener);
-    return () => window.removeEventListener("resize", listener);
-    //  eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const onInputChange = (e: any) => {
     e.preventDefault();
     e.stopPropagation();
@@ -92,41 +84,5 @@ const LineBetween: React.FC<TLineBetween> = ({
     </div>
   );
 };
-
-// https://github.com/chodorowicz/ts-debounce/blob/master/src/index.ts
-type Procedure = (...args: any[]) => void;
-type DebounceOptions = { isImmediate: boolean };
-function debounce<F extends Procedure>(
-  func: F,
-  waitMilliseconds = 50,
-  options: DebounceOptions = {
-    isImmediate: false,
-  }
-): (this: ThisParameterType<F>, ...args: Parameters<F>) => void {
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-  return function (this: ThisParameterType<F>, ...args: Parameters<F>) {
-    const context = this;
-
-    const doLater = function () {
-      timeoutId = undefined;
-      if (!options.isImmediate) {
-        func.apply(context, args);
-      }
-    };
-
-    const shouldCallNow = options.isImmediate && timeoutId === undefined;
-
-    if (timeoutId !== undefined) {
-      clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(doLater, waitMilliseconds);
-
-    if (shouldCallNow) {
-      func.apply(context, args);
-    }
-  };
-}
 
 export default LineBetween;
